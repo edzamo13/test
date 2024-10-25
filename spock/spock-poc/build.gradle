@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'groovy'
+}
+
+group = 'com.ezamora'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17' // O la versión de Java que estés usando
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Dependencias de Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+
+    // Dependencias de Spock y Groovy para los tests
+    testImplementation platform('org.spockframework:spock-bom:2.3-groovy-4.0') // Ajusta la versión según la que necesites
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'org.spockframework:spock-spring' // Integración de Spock con Spring Boot
+    testImplementation 'org.apache.groovy:groovy'
+
+    // Dependencias adicionales para mocks y pruebas
+    testImplementation 'net.bytebuddy:byte-buddy:1.15.5'
+    testImplementation 'org.objenesis:objenesis:3.4'
+    testImplementation 'org.hamcrest:hamcrest-core:2.2' // Para matchers adicionales en Spock
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()  // Esto asegura que Spock se ejecute en el entorno correcto
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
